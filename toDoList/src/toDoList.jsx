@@ -1,28 +1,49 @@
-import React, { useState } from 'react'
-import { Button,Input, Space  } from 'antd'
+import React, { useEffect, useState } from 'react';
+import { Button,Input, Space, DatePicker  } from 'antd';
 import './ToDoList.css';
-function ToDoList(){
-    const [toDo, setToDo] = useState(["Halı sahaya git", "Yemek yap", "spor yap"])
+function ToDoList({initialToDos}){
+    const [toDo, setToDo] = useState([])
     const [newToDo, setNewToDo] = useState("")
+    const [dateString, setDate] = useState("");
+
+    useEffect(() => {
+        if(initialToDos && initialToDos.lenght > 0) {
+            const formattedToDos = initialToDos.map(
+                (item) => `${item.task} ${item.date}`
+            );
+            setToDo(formattedToDos);
+        }
+    }, [initialToDos]);
+
+    function onChangeDate(event){
+        if(event !== null){
+            const date = event.format("YYYY-MM-DD");
+            setDate(date);    
+        }
+    }
 
     function onChangeInput(event){
         setNewToDo(event.target.value);
     }
 
     function addToDo(){
-        setToDo([...toDo, newToDo]);
-        setNewToDo("");
+        if(newToDo.trim() !== "" && dateString !== ""){
+            setToDo([...toDo, newToDo + " " + dateString]);
+            setDate("");
+            setNewToDo("");
+        }
     }
 
     function deleteToDo(index){
-
+        const deletedToDoList = toDo.filter((element, i) => i !== index);
+        setToDo(deletedToDoList);
     }
 
     return(
         <div className='to-do-list'>
             <h1>To do list</h1>
 
-            <div>
+            <div className='input-container'>
                 <Space.Compact style={{width: '100%'}}>
                     <Input
                         type='primary'
@@ -30,6 +51,7 @@ function ToDoList(){
                         value={newToDo}
                         onChange={onChangeInput}
                     />
+                    <DatePicker onChange={onChangeDate} style={{width: '200px'}}/>
                     <Button type='primary' onClick={addToDo}>Ekle</Button>
                 </Space.Compact>
             </div>
@@ -37,13 +59,11 @@ function ToDoList(){
             <ol>
                 {toDo.map((item, index) => 
                     <li key={index} className='to-do-list-item'>
-                        <span>{item}</span>
-                        <Button type='primary' danger onClick={() => deleteToDo(index)}>Yapıldı</Button>
+                        <span>{index + 1}. {item}</span>
+                        <Button color="purple" variant="outlined" onClick={() => deleteToDo(index)}>Yapıldı</Button>
                     </li>
                 )}
             </ol>
-
-
         </div>
     )
 }
