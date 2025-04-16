@@ -7,13 +7,14 @@ function ToDoList({initialToDos}){
     const [dateString, setDate] = useState("");
 
     useEffect(() => {
-        if(initialToDos && initialToDos.lenght > 0) {
-            const formattedToDos = initialToDos.map(
-                (item) => `${item.task} ${item.date}`
-            );
-            setToDo(formattedToDos);
+        console.log("initialToDos", initialToDos);
+        if (initialToDos && initialToDos.length > 0) {
+          const formattedToDos = initialToDos.map(
+            (item) => `${item.task}`
+          );
+          setToDo(formattedToDos);
         }
-    }, [initialToDos]);
+      }, [initialToDos]);
 
     function onChangeDate(event){
         if(event !== null){

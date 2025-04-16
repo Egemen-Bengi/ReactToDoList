@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import ToDoList from "./toDoList";
 
-const API_URL = "https://v1.nocodeapi.com/bengi/google_sheets/WpUFJCNWnPUIEThh";
+const API_URL = "https://v1.nocodeapi.com/bengi/google_sheets/CyzYjDqzmmdOOfFH?tabId=Sayfa1";
 
 function GetToDoList() {
     const [toDos, setToDos] = useState([]);
@@ -18,12 +18,12 @@ function GetToDoList() {
                 const items = data.data.map((row) => ({
                     id: row[0],
                     task: row[1],
-                    date: row[2],
                 }));
                 setToDos(items);
+                console.log("ToDoList:", items);
             })
             .catch((error) => {
-                console.error("Veri alınırken bir hata oluştu:", error);
+                console.error("Veri alınırken bir hata oluştu:", error.message);
             });
     }, []);
 
