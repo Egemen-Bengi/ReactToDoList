@@ -7,7 +7,6 @@ function ToDoList({initialToDos}){
     const [dateString, setDate] = useState("");
 
     useEffect(() => {
-        console.log("initialToDos", initialToDos);
         if (initialToDos && initialToDos.length > 0) {
           const formattedToDos = initialToDos.map(
             (item) => `${item.task}`
@@ -32,6 +31,27 @@ function ToDoList({initialToDos}){
             setToDo([...toDo, newToDo + " " + dateString]);
             setDate("");
             setNewToDo("");
+            /*
+            var myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            var requestOptions = {
+                method: "post",
+                headers: myHeaders,
+                redirect: "follow",
+                body: JSON.stringify([
+                    [newToDo + " " + dateString]
+                ])
+            };
+
+            fetch("https://v1.nocodeapi.com/bengi/google_sheets/CyzYjDqzmmdOOfFH?tabId=Sayfa1", requestOptions)
+            .then(response => response.json())
+            .then(result => { 
+                return result;
+            })
+            .catch(error => {
+                console.log('fetch hatası: ', error);
+                throw error;
+            });*/
         }
     }
 
