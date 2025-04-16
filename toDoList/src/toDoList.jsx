@@ -8,10 +8,11 @@ function ToDoList({initialToDos}){
 
     useEffect(() => {
         if (initialToDos && initialToDos.length > 0) {
-          const formattedToDos = initialToDos.map(
-            (item) => `${item.task}`
-          );
-          setToDo(formattedToDos);
+            const aktifToDos = initialToDos
+            .filter((item) => item.durum === "TRUE")
+            .map((item) => item.task);
+            setToDo(aktifToDos);
+            console.log(aktifToDos);
         }
       }, [initialToDos]);
 
@@ -31,7 +32,7 @@ function ToDoList({initialToDos}){
             setToDo([...toDo, newToDo + " " + dateString]);
             setDate("");
             setNewToDo("");
-            /*
+            
             var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
             var requestOptions = {
@@ -39,7 +40,7 @@ function ToDoList({initialToDos}){
                 headers: myHeaders,
                 redirect: "follow",
                 body: JSON.stringify([
-                    [newToDo + " " + dateString]
+                    [newToDo + " " + dateString, "TRUE"]
                 ])
             };
 
@@ -51,13 +52,35 @@ function ToDoList({initialToDos}){
             .catch(error => {
                 console.log('fetch hatası: ', error);
                 throw error;
-            });*/
+            });
         }
     }
 
     function deleteToDo(index){
         const deletedToDoList = toDo.filter((element, i) => i !== index);
         setToDo(deletedToDoList);
+        const rowId = index + 2;
+
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        var requestOptions = {
+            method: "put",
+            headers: myHeaders,
+            redirect: "follow",
+            body: JSON.stringify({
+                "row_id":rowId,
+                "durum":"FALSE"
+                })
+        };
+
+        fetch("https://v1.nocodeapi.com/bengi/google_sheets/CyzYjDqzmmdOOfFH?tabId=Sayfa1", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                console.log("Durum güncellendi:", result);
+            })
+            .catch(error => {
+                console.error("Silme (soft) hatası:", error);
+            });
     }
 
     return(
