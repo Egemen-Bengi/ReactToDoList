@@ -1,6 +1,96 @@
+/* Genel yapılacaklar listesi kutusu */
+.to-do-list {
+  max-width: 600px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+}
+
+/* Başlık */
+.to-do-list h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Input ve butonların bulunduğu alan */
+.input-container {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Her bir yapılacak öğesi */
 .to-do-list-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 20px 0;
+  padding: 15px;
+  margin: 10px 0;
+  background-color: #ffffff;
+  border-radius: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Hover efekti */
+.to-do-list-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Yapılacak metni */
+.to-do-list-item span {
+  flex: 1;
+  font-size: 16px;
+  color: #555;
+  cursor: pointer;
+}
+
+/* Detay kutusu */
+.todo-detail {
+  margin-top: 10px;
+  padding: 10px;
+  background-color: #f1f1f1;
+  border-radius: 15px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Butonlar */
+.to-do-list-item button {
+  margin-left: 10px;
+}
+
+/* Yapıldı butonu */
+.to-do-list-item .yapıld-button {
+  background-color: #6a5acd; /* Mor */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.to-do-list-item .yapıldı-button:hover {
+  background-color: #322b62; /* Daha koyu mor */
+}
+
+/* Kapat butonu */
+.to-do-list-item .kapat-button {
+  background-color: #ff4d4f; /* Kırmızı */
+  color: white;
+  border: none;
+  border-radius: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.to-do-list-item .kapat-button:hover {
+  background-color: #d9363e; /* Daha koyu kırmızı */
 }

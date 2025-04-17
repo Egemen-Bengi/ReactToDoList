@@ -5,6 +5,7 @@ function ToDoList({initialToDos}){
     const [toDo, setToDo] = useState([])
     const [newToDo, setNewToDo] = useState("")
     const [dateString, setDate] = useState("");
+    const [expandedIndex, setExpandedIndex] = useState(null);
 
     useEffect(() => {
         if (initialToDos && initialToDos.length > 0) {
@@ -30,7 +31,7 @@ function ToDoList({initialToDos}){
     function addToDo(){
         if(newToDo.trim() !== "" && dateString !== ""){
             setToDo([...toDo, newToDo + " " + dateString]);
-            setDate("");
+            setDate(null);
             setNewToDo("");
             
             var myHeaders = new Headers();
@@ -101,12 +102,41 @@ function ToDoList({initialToDos}){
             </div>
 
             <ol>
-                {toDo.map((item, index) => 
-                    <li key={index} className='to-do-list-item'>
-                        <span>{index + 1}. {item}</span>
-                        <Button color="purple" variant="outlined" onClick={() => deleteToDo(index)}>Yapıldı</Button>
+                {toDo.map((item, index) => (
+                    <li key={index} className="to-do-list-item">
+                        {expandedIndex !== index && ( 
+                            <>
+                                <span
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => setExpandedIndex(index)} 
+                                >
+                                    {index + 1}. {item}
+                                </span>
+                            </>
+                        )}
+                        {expandedIndex === index && (
+                            <div className="todo-detail">
+                                <span>Yapılacaklar, Tarih: {item}</span>
+                                <Button
+                                    className="yapıldı-button"
+                                    color="purple"
+                                    variant="outlined"
+                                    onClick={() => deleteToDo(index)}
+                                >
+                                    Yapıldı
+                                </Button>
+                                <Button
+                                    className="kapat-button"
+                                    color="danger"
+                                    variant="outlined"
+                                    onClick={() => setExpandedIndex(null)}
+                                >
+                                    Kapat
+                                </Button>
+                            </div>
+                        )}
                     </li>
-                )}
+                ))}
             </ol>
         </div>
     )

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ToDoList from "./toDoList";
+import ToDoList from "./ToDoList";
 
 const API_URL = "https://v1.nocodeapi.com/bengi/google_sheets/CyzYjDqzmmdOOfFH?tabId=Sayfa1";
 
