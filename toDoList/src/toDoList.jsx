@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Button,Input, Space, DatePicker  } from 'antd';
 import './ToDoList.css';
+import { SpaceContext } from 'antd/es/space';
 function ToDoList({initialToDos}){
     const [toDo, setToDo] = useState([])
     const [newToDo, setNewToDo] = useState("")
     const [dateString, setDate] = useState("");
     const [expandedIndex, setExpandedIndex] = useState(null);
+    const [searchTerm, setSearchTerm] = useState("");
+    const [filteredToDo, setFilteredToDo] = useState(toDo);
 
     useEffect(() => {
         if (initialToDos && initialToDos.length > 0) {
@@ -13,7 +16,7 @@ function ToDoList({initialToDos}){
             .filter((item) => item.durum === "TRUE")
             .map((item) => item.task);
             setToDo(aktifToDos);
-            console.log(aktifToDos);
+            setFilteredToDo(aktifToDos)
         }
       }, [initialToDos]);
 
@@ -26,6 +29,27 @@ function ToDoList({initialToDos}){
 
     function onChangeInput(event){
         setNewToDo(event.target.value);
+    }
+
+    function onSearchChange(event) {
+        setSearchTerm(event.target.value)
+    }
+
+    function onSearch() {
+        if(searchTerm !== ""){
+            const filtered = toDo.filter((item) => 
+                item.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+            setFilteredToDo(filtered);
+        } else {
+            resetSearch();
+        }
+        
+    }
+
+    function resetSearch(){
+        setSearchTerm("");
+        setFilteredToDo(toDo);
     }
 
     function addToDo(){
@@ -99,10 +123,21 @@ function ToDoList({initialToDos}){
                     <DatePicker onChange={onChangeDate} style={{width: '200px'}}/>
                     <Button type='primary' onClick={addToDo}>Ekle</Button>
                 </Space.Compact>
+                <Space.Compact style={{width: '100%'}}>
+                    <Input
+                        placeholder='Aramak için yaz'
+                        value={searchTerm}
+                        onChange={onSearchChange}
+                        style={{flex: 1}}
+                    />
+                    <Button type='primary' onClick={onSearch}>
+                        Search
+                    </Button>
+                </Space.Compact>
             </div>
 
             <ol>
-                {toDo.map((item, index) => (
+                {filteredToDo.map((item, index) => (
                     <li key={index} className="to-do-list-item">
                         {expandedIndex !== index && ( 
                             <>
